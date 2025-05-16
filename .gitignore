@@ -17,6 +17,7 @@
 /android/**/gradlew.bat
 /android/local.properties
 /android/gradle.properties
+/android/app/build/
 .gradle/
 
 # iOS
@@ -50,10 +51,12 @@
 .env.local
 .env*.local
 
+# 依赖锁定文件
+pubspec.lock
+
 # 本地开发文件
 .metadata
 analysis_options.yaml
-pubspec.lock
 
 # 系统文件
 .DS_Store

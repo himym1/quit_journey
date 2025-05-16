@@ -1,16 +1,25 @@
-# quit_journey
+# Quit Journey 焕新之旅
+![Flutter](https://img.shields.io/badge/Flutter-3.13-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-A new Flutter project.
+## 🌟 功能特性
+- 匿名用户快速接入
+- 戒烟计划个性化配置
+- 实时数据看板
 
-## Getting Started
+## 🚀 快速开始
+```bash
+flutter pub get
+flutter run
+```
 
-This project is a starting point for a Flutter application.
+## 🏗 技术架构
+```mermaid
+graph TD
+  A[Presentation Layer] --> B(Domain Layer)
+  B --> C(Data Layer)
+  C --> D[Local Database]
+```
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📄 开源协议
+MIT License
