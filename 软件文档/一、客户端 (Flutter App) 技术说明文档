@@ -1,0 +1,74 @@
+一、客户端 (Flutter App) 技术说明文档
+项目名称： 焕新之旅 - Quit Journey (Flutter App)
+版本： 1.0
+目标平台： Android, iOS
+1. 项目概述
+本项目是“焕新之旅”戒烟辅助应用的移动客户端，使用 Flutter 框架开发，旨在为用户提供跨平台的、流畅的戒烟支持体验。主要功能包括戒烟计划设定、实时进度追踪、健康效益展示、烟瘾管理、每日打卡、成就激励等。
+2. 技术选型
+开发语言： Dart
+UI 框架： Flutter SDK
+状态管理： Riverpod (首选) 或 Provider
+路由管理： GoRouter
+网络请求： Dio (封装Service层进行API调用)
+本地存储：
+shared_preferences: 存储用户偏好设置、Token、首次启动标记等简单键值对。
+sqflite (配合 drift 或直接使用): 存储戒烟日记、烟瘾记录、成就数据、健康效益数据等结构化数据。
+hive: 作为 sqflite 的备选或补充，用于某些特定数据的快速存取。
+数据模型与序列化：
+使用 freezed 生成不可变数据类 (Entities/Models) 和 copyWith 等辅助方法。
+使用 json_serializable 配合 freezed 自动生成 fromJson/toJson 方法。
+依赖注入：
+利用 Riverpod 的 Provider 机制进行依赖注入。
+get_it + injectable (作为备选，如果Riverpod不足以满足所有场景)。
+本地通知： flutter_local_notifications 用于实现每日打卡提醒、成就达成提醒等。
+图标与资源： SVG图标 (使用 flutter_svg), Lottie动画 (使用 lottie)。
+测试：
+单元测试: test 包 (测试Domain层、部分Data层逻辑)。
+Widget测试: flutter_test 包 (测试UI组件)。
+集成测试: integration_test 包 (测试关键用户流程)。
+代码规范与静态分析： flutter_lints 或自定义lint规则。
+3. 项目结构 (遵循Clean Architecture变种)
+lib/
+main.dart: App入口及顶层配置。
+app_widget.dart: MaterialApp 定义，主题，路由等。
+core/: 核心工具、常量、主题、错误处理、路由配置、依赖注入配置。
+data/: 数据层
+datasources/: (本地 local_datasource.dart, 远程 remote_datasource.dart)
+models/: API响应模型 (DTOs, freezed生成)。
+repositories_impl/: Repository 接口的具体实现。
+domain/: 领域层 (纯Dart)
+entities/: 业务实体 (freezed生成)。
+repositories/: Repository 接口定义。
+usecases/: 业务用例。
+presentation/: UI表现层
+common_widgets/: 通用自定义Widget。
+features/: 按功能模块划分 (e.g., auth, home, progress, diary, settings)
+pages/: 页面级Widget。
+widgets/: 页面内可复用的小组件。
+providers/ 或 notifiers/: Riverpod Providers/Notifiers。
+config/: 环境配置 (dev, prod API URLs等)。
+generated/: 由build_runner生成的代码。
+assets/: 图片、字体、Lottie文件等。
+test/: 测试代码。
+4. 关键实现点
+用户认证流程：
+API调用封装在AuthRepository中。
+使用shared_preferences或安全存储保存认证Token。
+通过全局AuthProvider管理用户登录状态，控制页面访问权限。
+数据同步：
+优先从本地数据库加载数据以提高启动速度和离线体验。
+在合适的时机（如App启动、网络恢复、用户操作后）与后端API进行数据同步。
+设计同步策略，处理冲突（如果允许离线修改）。
+后台任务（有限）： 利用flutter_local_notifications实现定时提醒。更复杂的后台任务可能需要原生插件或workmanager。
+错误处理：
+定义统一的Failure类表示业务错误。
+在Repository层面捕获异常并转换为Failure。
+UI层根据Failure类型展示友好的错误提示。
+状态持久化：
+对于需要跨App重启保留的状态 (如Riverpod中的某些Provider)，考虑使用 hydrated_bloc (如果是BLoC) 或手动结合本地存储实现。
+深色模式适配： 在ThemeData中同时定义light和dark主题。
+5. 构建与发布
+使用Flutter CLI进行构建、打包。
+Android: 生成APK/AAB，进行签名。
+iOS: 使用Xcode进行Archive和发布。
+CI/CD: 考虑使用Codemagic或GitHub Actions自动化构建和测试流程。
