@@ -8,6 +8,7 @@ import 'package:quit_journey/domain/repositories/quit_settings_repository.dart';
 class QuitSettingsRepositoryImpl implements QuitSettingsRepository {
   final QuitSettingsLocalDataSource localDataSource;
   // final NetworkInfo networkInfo; // 如果需要网络同步
+  QuitSettingsEntity? _currentSettings;
 
   QuitSettingsRepositoryImpl({
     required this.localDataSource,
@@ -15,14 +16,18 @@ class QuitSettingsRepositoryImpl implements QuitSettingsRepository {
   });
 
   @override
+  QuitSettingsEntity get currentSettings {
+    _currentSettings ??= localDataSource.getCurrentSettings();
+    return _currentSettings!;
+  }
+
+  @override
   Future<QuitSettingsEntity?> getQuitSettings(String userId) async {
-    // MVP 阶段，简单从本地获取，后续可以加入网络同步和错误处理
     try {
       return await localDataSource.getQuitSettings(userId);
     } catch (e) {
-      // TODO: 转换为 Failure 类型
       print('Error getting quit settings: $e');
-      return null; // 或者抛出自定义异常/返回 Failure
+      return null;
     }
   }
 
@@ -30,11 +35,9 @@ class QuitSettingsRepositoryImpl implements QuitSettingsRepository {
   Future<void> saveQuitSettings(QuitSettingsEntity settings) async {
     try {
       await localDataSource.saveQuitSettings(settings);
-      // return Right(null); // 使用 dartz 时
+      _currentSettings = settings;
     } catch (e) {
-      // TODO: 转换为 Failure 类型
       print('Error saving quit settings: $e');
-      // return Left(CacheFailure()); // 使用 dartz 时
     }
   }
 
@@ -42,11 +45,9 @@ class QuitSettingsRepositoryImpl implements QuitSettingsRepository {
   Future<void> deleteQuitSettings(String userId) async {
     try {
       await localDataSource.deleteQuitSettings(userId);
-      // return Right(null);
+      _currentSettings = null;
     } catch (e) {
-      // TODO: 转换为 Failure 类型
       print('Error deleting quit settings: $e');
-      // return Left(CacheFailure());
     }
   }
 }

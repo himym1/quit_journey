@@ -3,6 +3,9 @@ import 'package:quit_journey/domain/entities/quit_settings_entity.dart';
 // import 'package:quit_journey/core/error/failures.dart';
 
 abstract class QuitSettingsRepository {
+  /// 当前用户的戒烟设置
+  QuitSettingsEntity get currentSettings;
+
   /// 获取指定用户的戒烟设置
   /// 返回 Either<Failure, QuitSettingsEntity?>
   Future<QuitSettingsEntity?> getQuitSettings(String userId);

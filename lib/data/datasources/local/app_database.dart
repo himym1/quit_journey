@@ -16,6 +16,13 @@ class QuitSettingsTable extends Table {
   DateTimeColumn get quitDateTime => dateTime()();
   IntColumn get dailyCigarettes => integer()();
   RealColumn get packPrice => real()();
+  IntColumn get cigarettesPerPack =>
+      integer().withDefault(const Constant(20))();
+  RealColumn get dailyCigaretteCost =>
+      real().withDefault(const Constant(0.0))();
+  DateTimeColumn get quitStartTime => dateTime()();
+  IntColumn get nicotineAddictionLevel =>
+      integer().withDefault(const Constant(3))();
   IntColumn get smokingYears => integer().nullable()();
   TextColumn get quitReason => text().nullable()();
   DateTimeColumn get createdAt => dateTime()();
@@ -25,7 +32,34 @@ class QuitSettingsTable extends Table {
   Set<Column> get primaryKey => {userId}; // 将 userId 设为主键
 }
 
-@DriftDatabase(tables: [QuitSettingsTable])
+// 定义 CravingRecords 表
+class CravingRecords extends Table {
+  TextColumn get id => text()(); // 主键，假设是UUID字符串
+  DateTimeColumn get occurredAt => dateTime()(); // 发生时间
+  IntColumn get intensity =>
+      integer().check(
+        intensity.isBetween(Constant(1), Constant(5)),
+      )(); // 渴求强度 (1-5)
+  TextColumn get triggerContext => text().nullable()(); // 触发情境
+  TextColumn get copingStrategyUsed => text().nullable()(); // 使用的应对策略
+  BoolColumn get successfullyResisted => boolean()(); // 是否成功抵制
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+// 定义 EmergencyStrategies 表
+class EmergencyStrategies extends Table {
+  TextColumn get id => text()(); // 主键，假设是UUID字符串
+  TextColumn get title => text()(); // 策略标题
+  TextColumn get description => text()(); // 策略描述
+  TextColumn get category => text().nullable()(); // 策略分类 (例如：呼吸、分散注意力等)
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+@DriftDatabase(tables: [QuitSettingsTable, CravingRecords, EmergencyStrategies])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
@@ -63,6 +97,13 @@ class AppDatabase extends _$AppDatabase {
       quitDateTime: data.quitDateTime,
       dailyCigarettes: data.dailyCigarettes,
       packPrice: data.packPrice,
+      cigarettesPerPack: data.cigarettesPerPack ?? 20, // 默认20支/包
+      dailyCigaretteCost:
+          data.dailyCigaretteCost ??
+          (data.dailyCigarettes *
+              (data.packPrice / (data.cigarettesPerPack ?? 20))),
+      quitStartTime: data.quitStartTime ?? data.quitDateTime,
+      nicotineAddictionLevel: data.nicotineAddictionLevel ?? 3, // 默认中等依赖
       smokingYears: data.smokingYears,
       quitReason: data.quitReason,
       createdAt: data.createdAt,

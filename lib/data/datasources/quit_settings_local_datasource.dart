@@ -1,6 +1,9 @@
 import 'package:quit_journey/domain/entities/quit_settings_entity.dart';
 
 abstract class QuitSettingsLocalDataSource {
+  /// 获取当前用户的戒烟设置
+  QuitSettingsEntity? getCurrentSettings();
+
   /// 获取指定用户的戒烟设置
   Future<QuitSettingsEntity?> getQuitSettings(String userId);
 

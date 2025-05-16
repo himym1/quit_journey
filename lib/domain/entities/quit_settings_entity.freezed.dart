@@ -21,13 +21,17 @@ QuitSettingsEntity _$QuitSettingsEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$QuitSettingsEntity {
-  String get userId => throw _privateConstructorUsedError; // 关联的用户 ID
-  DateTime get quitDateTime => throw _privateConstructorUsedError; // 戒烟开始日期与时间
-  int get dailyCigarettes => throw _privateConstructorUsedError; // 每日吸烟量
-  double get packPrice => throw _privateConstructorUsedError; // 每包香烟价格
-  int? get smokingYears => throw _privateConstructorUsedError; // 烟龄（可选）
-  String? get quitReason => throw _privateConstructorUsedError; // 我的戒烟宣言/理由
-  DateTime get createdAt => throw _privateConstructorUsedError; // 设置创建时间
+  String get userId => throw _privateConstructorUsedError;
+  DateTime get quitDateTime => throw _privateConstructorUsedError;
+  int get dailyCigarettes => throw _privateConstructorUsedError;
+  double get packPrice => throw _privateConstructorUsedError;
+  int get cigarettesPerPack => throw _privateConstructorUsedError; // 明确每包香烟支数
+  double get dailyCigaretteCost => throw _privateConstructorUsedError;
+  DateTime get quitStartTime => throw _privateConstructorUsedError;
+  int get nicotineAddictionLevel => throw _privateConstructorUsedError;
+  int? get smokingYears => throw _privateConstructorUsedError;
+  String? get quitReason => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this QuitSettingsEntity to a JSON map.
@@ -52,6 +56,10 @@ abstract class $QuitSettingsEntityCopyWith<$Res> {
     DateTime quitDateTime,
     int dailyCigarettes,
     double packPrice,
+    int cigarettesPerPack,
+    double dailyCigaretteCost,
+    DateTime quitStartTime,
+    int nicotineAddictionLevel,
     int? smokingYears,
     String? quitReason,
     DateTime createdAt,
@@ -78,6 +86,10 @@ class _$QuitSettingsEntityCopyWithImpl<$Res, $Val extends QuitSettingsEntity>
     Object? quitDateTime = null,
     Object? dailyCigarettes = null,
     Object? packPrice = null,
+    Object? cigarettesPerPack = null,
+    Object? dailyCigaretteCost = null,
+    Object? quitStartTime = null,
+    Object? nicotineAddictionLevel = null,
     Object? smokingYears = freezed,
     Object? quitReason = freezed,
     Object? createdAt = null,
@@ -105,6 +117,26 @@ class _$QuitSettingsEntityCopyWithImpl<$Res, $Val extends QuitSettingsEntity>
                     ? _value.packPrice
                     : packPrice // ignore: cast_nullable_to_non_nullable
                         as double,
+            cigarettesPerPack:
+                null == cigarettesPerPack
+                    ? _value.cigarettesPerPack
+                    : cigarettesPerPack // ignore: cast_nullable_to_non_nullable
+                        as int,
+            dailyCigaretteCost:
+                null == dailyCigaretteCost
+                    ? _value.dailyCigaretteCost
+                    : dailyCigaretteCost // ignore: cast_nullable_to_non_nullable
+                        as double,
+            quitStartTime:
+                null == quitStartTime
+                    ? _value.quitStartTime
+                    : quitStartTime // ignore: cast_nullable_to_non_nullable
+                        as DateTime,
+            nicotineAddictionLevel:
+                null == nicotineAddictionLevel
+                    ? _value.nicotineAddictionLevel
+                    : nicotineAddictionLevel // ignore: cast_nullable_to_non_nullable
+                        as int,
             smokingYears:
                 freezed == smokingYears
                     ? _value.smokingYears
@@ -145,6 +177,10 @@ abstract class _$$QuitSettingsEntityImplCopyWith<$Res>
     DateTime quitDateTime,
     int dailyCigarettes,
     double packPrice,
+    int cigarettesPerPack,
+    double dailyCigaretteCost,
+    DateTime quitStartTime,
+    int nicotineAddictionLevel,
     int? smokingYears,
     String? quitReason,
     DateTime createdAt,
@@ -170,6 +206,10 @@ class __$$QuitSettingsEntityImplCopyWithImpl<$Res>
     Object? quitDateTime = null,
     Object? dailyCigarettes = null,
     Object? packPrice = null,
+    Object? cigarettesPerPack = null,
+    Object? dailyCigaretteCost = null,
+    Object? quitStartTime = null,
+    Object? nicotineAddictionLevel = null,
     Object? smokingYears = freezed,
     Object? quitReason = freezed,
     Object? createdAt = null,
@@ -197,6 +237,26 @@ class __$$QuitSettingsEntityImplCopyWithImpl<$Res>
                 ? _value.packPrice
                 : packPrice // ignore: cast_nullable_to_non_nullable
                     as double,
+        cigarettesPerPack:
+            null == cigarettesPerPack
+                ? _value.cigarettesPerPack
+                : cigarettesPerPack // ignore: cast_nullable_to_non_nullable
+                    as int,
+        dailyCigaretteCost:
+            null == dailyCigaretteCost
+                ? _value.dailyCigaretteCost
+                : dailyCigaretteCost // ignore: cast_nullable_to_non_nullable
+                    as double,
+        quitStartTime:
+            null == quitStartTime
+                ? _value.quitStartTime
+                : quitStartTime // ignore: cast_nullable_to_non_nullable
+                    as DateTime,
+        nicotineAddictionLevel:
+            null == nicotineAddictionLevel
+                ? _value.nicotineAddictionLevel
+                : nicotineAddictionLevel // ignore: cast_nullable_to_non_nullable
+                    as int,
         smokingYears:
             freezed == smokingYears
                 ? _value.smokingYears
@@ -224,48 +284,54 @@ class __$$QuitSettingsEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$QuitSettingsEntityImpl implements _QuitSettingsEntity {
+class _$QuitSettingsEntityImpl extends _QuitSettingsEntity {
   const _$QuitSettingsEntityImpl({
     required this.userId,
     required this.quitDateTime,
     required this.dailyCigarettes,
     required this.packPrice,
+    required this.cigarettesPerPack,
+    required this.dailyCigaretteCost,
+    required this.quitStartTime,
+    required this.nicotineAddictionLevel,
     this.smokingYears,
     this.quitReason,
     required this.createdAt,
     this.updatedAt,
-  });
+  }) : super._();
 
   factory _$QuitSettingsEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuitSettingsEntityImplFromJson(json);
 
   @override
   final String userId;
-  // 关联的用户 ID
   @override
   final DateTime quitDateTime;
-  // 戒烟开始日期与时间
   @override
   final int dailyCigarettes;
-  // 每日吸烟量
   @override
   final double packPrice;
-  // 每包香烟价格
+  @override
+  final int cigarettesPerPack;
+  // 明确每包香烟支数
+  @override
+  final double dailyCigaretteCost;
+  @override
+  final DateTime quitStartTime;
+  @override
+  final int nicotineAddictionLevel;
   @override
   final int? smokingYears;
-  // 烟龄（可选）
   @override
   final String? quitReason;
-  // 我的戒烟宣言/理由
   @override
   final DateTime createdAt;
-  // 设置创建时间
   @override
   final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'QuitSettingsEntity(userId: $userId, quitDateTime: $quitDateTime, dailyCigarettes: $dailyCigarettes, packPrice: $packPrice, smokingYears: $smokingYears, quitReason: $quitReason, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'QuitSettingsEntity(userId: $userId, quitDateTime: $quitDateTime, dailyCigarettes: $dailyCigarettes, packPrice: $packPrice, cigarettesPerPack: $cigarettesPerPack, dailyCigaretteCost: $dailyCigaretteCost, quitStartTime: $quitStartTime, nicotineAddictionLevel: $nicotineAddictionLevel, smokingYears: $smokingYears, quitReason: $quitReason, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -280,6 +346,14 @@ class _$QuitSettingsEntityImpl implements _QuitSettingsEntity {
                 other.dailyCigarettes == dailyCigarettes) &&
             (identical(other.packPrice, packPrice) ||
                 other.packPrice == packPrice) &&
+            (identical(other.cigarettesPerPack, cigarettesPerPack) ||
+                other.cigarettesPerPack == cigarettesPerPack) &&
+            (identical(other.dailyCigaretteCost, dailyCigaretteCost) ||
+                other.dailyCigaretteCost == dailyCigaretteCost) &&
+            (identical(other.quitStartTime, quitStartTime) ||
+                other.quitStartTime == quitStartTime) &&
+            (identical(other.nicotineAddictionLevel, nicotineAddictionLevel) ||
+                other.nicotineAddictionLevel == nicotineAddictionLevel) &&
             (identical(other.smokingYears, smokingYears) ||
                 other.smokingYears == smokingYears) &&
             (identical(other.quitReason, quitReason) ||
@@ -298,6 +372,10 @@ class _$QuitSettingsEntityImpl implements _QuitSettingsEntity {
     quitDateTime,
     dailyCigarettes,
     packPrice,
+    cigarettesPerPack,
+    dailyCigaretteCost,
+    quitStartTime,
+    nicotineAddictionLevel,
     smokingYears,
     quitReason,
     createdAt,
@@ -321,35 +399,48 @@ class _$QuitSettingsEntityImpl implements _QuitSettingsEntity {
   }
 }
 
-abstract class _QuitSettingsEntity implements QuitSettingsEntity {
+abstract class _QuitSettingsEntity extends QuitSettingsEntity {
   const factory _QuitSettingsEntity({
     required final String userId,
     required final DateTime quitDateTime,
     required final int dailyCigarettes,
     required final double packPrice,
+    required final int cigarettesPerPack,
+    required final double dailyCigaretteCost,
+    required final DateTime quitStartTime,
+    required final int nicotineAddictionLevel,
     final int? smokingYears,
     final String? quitReason,
     required final DateTime createdAt,
     final DateTime? updatedAt,
   }) = _$QuitSettingsEntityImpl;
+  const _QuitSettingsEntity._() : super._();
 
   factory _QuitSettingsEntity.fromJson(Map<String, dynamic> json) =
       _$QuitSettingsEntityImpl.fromJson;
 
   @override
-  String get userId; // 关联的用户 ID
+  String get userId;
   @override
-  DateTime get quitDateTime; // 戒烟开始日期与时间
+  DateTime get quitDateTime;
   @override
-  int get dailyCigarettes; // 每日吸烟量
+  int get dailyCigarettes;
   @override
-  double get packPrice; // 每包香烟价格
+  double get packPrice;
   @override
-  int? get smokingYears; // 烟龄（可选）
+  int get cigarettesPerPack; // 明确每包香烟支数
   @override
-  String? get quitReason; // 我的戒烟宣言/理由
+  double get dailyCigaretteCost;
   @override
-  DateTime get createdAt; // 设置创建时间
+  DateTime get quitStartTime;
+  @override
+  int get nicotineAddictionLevel;
+  @override
+  int? get smokingYears;
+  @override
+  String? get quitReason;
+  @override
+  DateTime get createdAt;
   @override
   DateTime? get updatedAt;
 
